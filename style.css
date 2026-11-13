@@ -1,7 +1,8 @@
 
 /* ==========================================
-   EDUARD E. RAMOS — PROFESSIONAL LIGHT PORTFOLIO
-   Editorial blue | navy | terracotta | warm white
+   EDUARD E. RAMOS — PROFESSIONAL PORTFOLIO
+   Home: Olive Green Editorial
+   Other Pages: Navy / Blue / Terracotta
 ========================================== */
 
 :root {
@@ -16,6 +17,11 @@
     --text: #29333b;
     --muted: #6d747b;
     --border: #deddda;
+
+    --home-green: #35472f;
+    --home-green-dark: #293827;
+    --home-sage: #dce8b8;
+
     --font-heading: "Manrope", sans-serif;
     --font-body: "DM Sans", sans-serif;
 }
@@ -86,6 +92,7 @@ button {
 .light-eyebrow {
     color: #f0c7b9;
 }
+
 
 /* ==========================================
    NAVIGATION
@@ -192,182 +199,222 @@ button {
     font-size: 18px;
 }
 
+
 /* ==========================================
-   HOME — EDITORIAL LANDING
-   UPDATED: CLEAR AND COMPLETE IMAGE
+   HOME — DYNAMIC STUDIO REFERENCE DESIGN
 ========================================== */
 
-.home-editorial {
-    padding: 0;
-    background: var(--light);
+.home {
+    width: 100%;
+    padding: 24px 3%;
+    background: #f4f3ef;
 }
 
-.home-editorial-top {
-    min-height: 330px;
-    padding: 48px 7%;
-    display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    align-items: center;
-    gap: 50px;
-    background: var(--blue-soft);
-}
-
-.home-brand-small {
-    display: block;
-    margin-bottom: 19px;
-    color: #40596a;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 2.5px;
-}
-
-.home-brand h1 {
-    color: var(--navy);
-    font-family: var(--font-heading);
-    font-size: clamp(66px, 9.5vw, 116px);
-    font-weight: 800;
-    line-height: .95;
-    letter-spacing: -7px;
-}
-
-.home-brand h1 span {
-    color: var(--rust);
-}
-
-.home-introduction {
-    max-width: 350px;
-    justify-self: end;
-}
-
-.home-intro-label {
-    display: block;
-    margin-bottom: 16px;
-    color: #40596a;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 1.8px;
-}
-
-.home-introduction p {
-    margin-bottom: 22px;
-    color: #344d5c;
-    font-size: 13px;
-    line-height: 1.9;
-}
-
-.home-view-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 17px;
-    color: white;
-    background: var(--navy);
-    font-size: 10px;
-    font-weight: 800;
-    transition: .25s ease;
-}
-
-.home-view-button:hover {
-    background: var(--rust);
-    transform: translateY(-3px);
-}
-
-/* HOME IMAGE — MAIN FIX */
-
-.home-editorial-image {
+.home-card {
     position: relative;
     width: 100%;
-    height: clamp(450px, 55vw, 680px);
+    max-width: 1400px;
+    min-height: 510px;
+    margin: 0 auto;
+    padding: 13px;
+
+    display: grid;
+    grid-template-columns: 1.08fr .92fr;
+    gap: 12px;
+
+    background: var(--home-green);
+    border-radius: 20px;
     overflow: hidden;
-    isolation: isolate;
-    background: #e8eef1;
 }
 
-.home-editorial-image img {
-    position: relative;
+/* LEFT SIDE */
+
+.home-left {
+    min-width: 0;
+    padding: 18px 15px 15px 12px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* SMALL TOP LABEL */
+
+.home-label {
     display: block;
+    color: rgba(220,232,184,.72);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+/* LARGE NAME */
+
+.home-title {
+    margin-top: 8px;
+    color: var(--home-sage);
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(65px, 8vw, 115px);
+    font-weight: 500;
+    line-height: .82;
+    letter-spacing: -5px;
+}
+
+.home-title span {
+    color: #aebe8c;
+}
+
+/* BOTTOM LEFT CONTENT */
+
+.home-bottom {
+    display: grid;
+    grid-template-columns: 115px minmax(0, 1fr);
+    align-items: center;
+    gap: 17px;
+
+    max-width: 510px;
+    margin-top: 30px;
+}
+
+/* SMALL PORTRAIT */
+
+.home-small-image {
+    width: 115px;
+    height: 125px;
+    overflow: hidden;
+    background: #64745a;
+}
+
+.home-small-image img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform .4s ease;
+}
+
+.home-small-image:hover img {
+    transform: scale(1.05);
+}
+
+/* INTRODUCTION */
+
+.home-description {
+    min-width: 0;
+}
+
+.home-role {
+    display: block;
+    margin-bottom: 7px;
+
+    color: #d4e2b1;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.home-description p {
+    max-width: 270px;
+    margin-bottom: 13px;
+
+    color: rgba(239,243,225,.86);
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+/* VIEW MY WORK BUTTON */
+
+.home-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 9px 15px;
+
+    color: #e1eacb;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(220,232,184,.42);
+    border-radius: 30px;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    transition: .3s ease;
+}
+
+.home-button i {
+    font-size: 9px;
+    transition: transform .3s ease;
+}
+
+.home-button:hover {
+    color: var(--home-green);
+    background: var(--home-sage);
+    border-color: var(--home-sage);
+    transform: translateY(-2px);
+}
+
+.home-button:hover i {
+    transform: translateX(4px);
+}
+
+/* RIGHT SIDE IMAGE */
+
+.home-right {
+    position: relative;
+    min-width: 0;
+    min-height: 480px;
+    overflow: hidden;
+    background: #293827;
+    border-radius: 5px;
+}
+
+.home-right img {
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+
+    /* Show the whole photograph */
     object-fit: contain;
-    object-position: center center;
-    z-index: 0;
-    transition: transform .8s ease;
+    object-position: center;
+
+    transition: transform .6s ease;
 }
 
-.home-editorial-image:hover img {
-    transform: scale(1.01);
+.home-right:hover img {
+    transform: scale(1.025);
 }
 
-.home-image-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(
-        0deg,
-        rgba(15,34,47,.48) 0%,
-        rgba(15,34,47,.10) 28%,
-        transparent 55%
-    );
-}
+/* IMAGE CAPTION */
 
 .home-image-caption {
     position: absolute;
-    left: 7%;
-    right: 7%;
-    bottom: 28px;
-    z-index: 2;
+    bottom: 14px;
+    left: 15px;
+    right: 15px;
+
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+    gap: 10px;
+
     color: white;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 1.8px;
-}
-
-.home-image-scroll {
-    position: absolute;
-    right: 7%;
-    bottom: 65px;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    width: 43px;
-    height: 43px;
-    color: white;
-    border: 1px solid rgba(255,255,255,.75);
-    border-radius: 50%;
-    transition: .25s ease;
-}
-
-.home-image-scroll:hover {
-    color: var(--navy);
-    background: white;
-}
-
-.home-editorial-footer {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 20px 7%;
-    color: #58666f;
     font-size: 8px;
     font-weight: 800;
-    letter-spacing: 1.6px;
+    letter-spacing: 1.3px;
+
+    text-shadow: 0 2px 8px rgba(0,0,0,.7);
 }
 
+
 /* ==========================================
-   ABOUT — CINEMATIC PORTRAIT
+   ABOUT
 ========================================== */
 
 .about {
     padding: 95px 0 105px;
     background: var(--white);
-}
-
-.about .section-container {
-    display: block;
 }
 
 .about-banner {
@@ -568,6 +615,7 @@ button {
     line-height: 1.8;
 }
 
+
 /* ==========================================
    SKILLS
 ========================================== */
@@ -669,6 +717,7 @@ button {
     font-weight: 800;
     letter-spacing: 1.8px;
 }
+
 
 /* ==========================================
    PROJECTS
@@ -788,6 +837,7 @@ button {
     font-size: 9px;
     font-weight: 700;
 }
+
 
 /* ==========================================
    CONTACT
@@ -990,6 +1040,7 @@ button {
     letter-spacing: 1px;
 }
 
+
 /* ==========================================
    BACK TO TOP
 ========================================== */
@@ -1022,6 +1073,7 @@ button {
     background: var(--rust);
 }
 
+
 /* ==========================================
    TABLET
 ========================================== */
@@ -1048,10 +1100,51 @@ button {
     .project-image {
         height: 300px;
     }
+
+    /* Home tablet */
+
+    .home {
+        padding: 20px 3%;
+    }
+
+    .home-card {
+        min-height: 450px;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .home-left {
+        padding: 16px 8px;
+    }
+
+    .home-title {
+        font-size: clamp(55px, 8vw, 80px);
+        letter-spacing: -4px;
+    }
+
+    .home-bottom {
+        grid-template-columns: 85px minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .home-small-image {
+        width: 85px;
+        height: 105px;
+    }
+
+    .home-description p {
+        font-size: 10px;
+    }
+
+    .home-right,
+    .home-right img {
+        min-height: 420px;
+    }
 }
 
+
 /* ==========================================
-   MOBILE NAVIGATION + LAYOUT
+   MOBILE NAVIGATION AND LAYOUT
 ========================================== */
 
 @media (max-width: 700px) {
@@ -1074,10 +1167,12 @@ button {
         top: 68px;
         left: 0;
         right: 0;
+
         display: none;
         flex-direction: column;
         align-items: stretch;
         gap: 0;
+
         padding: 9px 6% 17px;
         background: white;
         border-bottom: 1px solid var(--border);
@@ -1097,39 +1192,73 @@ button {
         display: none;
     }
 
-    .home-editorial-top {
+    /* HOME MOBILE */
+
+    .home {
+        padding: 14px 3%;
+    }
+
+    .home-card {
+        min-height: auto;
+        padding: 12px;
         grid-template-columns: 1fr;
-        gap: 30px;
-        padding: 45px 7% 38px;
+        gap: 17px;
+        border-radius: 16px;
     }
 
-    .home-brand h1 {
-        font-size: clamp(66px, 15vw, 94px);
+    .home-left {
+        min-height: 300px;
+        padding: 12px 9px 4px;
     }
 
-    .home-introduction {
-        justify-self: start;
-        max-width: 470px;
+    .home-label {
+        font-size: 8px;
     }
 
-    /* HOME IMAGE MOBILE FIX */
-
-    .home-editorial-image {
-        height: 450px;
-        min-height: 450px;
+    .home-title {
+        margin-top: 22px;
+        font-size: clamp(65px, 14vw, 95px);
+        letter-spacing: -4px;
     }
 
-    .home-editorial-image img {
-        width: 100%;
+    .home-bottom {
+        grid-template-columns: 95px minmax(0, 1fr);
+        gap: 15px;
+        margin-top: 28px;
+    }
+
+    .home-small-image {
+        width: 95px;
+        height: 110px;
+    }
+
+    .home-description p {
+        font-size: 10px;
+    }
+
+    .home-button {
+        padding: 9px 13px;
+        font-size: 9px;
+    }
+
+    .home-right {
+        min-height: 380px;
+        height: 60vw;
+        max-height: 500px;
+        border-radius: 9px;
+    }
+
+    .home-right img {
+        min-height: 100%;
         height: 100%;
         object-fit: contain;
-        object-position: center center;
     }
 
     .home-image-caption {
-        font-size: 8px;
-        letter-spacing: 1px;
+        font-size: 7px;
     }
+
+    /* ABOUT MOBILE */
 
     .about {
         padding: 65px 0 75px;
@@ -1206,6 +1335,8 @@ button {
         padding: 28px 4px 0;
     }
 
+    /* SKILLS MOBILE */
+
     .skills {
         padding: 75px 0 45px;
     }
@@ -1219,6 +1350,8 @@ button {
     .skills-bottom {
         margin-top: 45px;
     }
+
+    /* PROJECTS MOBILE */
 
     .projects {
         padding: 75px 0;
@@ -1251,6 +1384,8 @@ button {
         font-size: 31px;
     }
 
+    /* CONTACT MOBILE */
+
     .contact {
         padding-top: 70px;
     }
@@ -1272,6 +1407,7 @@ button {
     }
 }
 
+
 /* ==========================================
    SMALL MOBILE
 ========================================== */
@@ -1282,51 +1418,67 @@ button {
         width: 90%;
     }
 
-    .home-editorial-top {
-        padding: 40px 6% 32px;
+    /* HOME SMALL MOBILE */
+
+    .home {
+        padding: 11px 3%;
     }
 
-    .home-brand h1 {
-        font-size: 67px;
+    .home-card {
+        padding: 9px;
+        gap: 14px;
+        border-radius: 13px;
+    }
+
+    .home-left {
+        min-height: 285px;
+        padding: 10px 7px 3px;
+    }
+
+    .home-title {
+        font-size: 65px;
         letter-spacing: -4px;
     }
 
-    .home-introduction p {
-        font-size: 12px;
+    .home-bottom {
+        grid-template-columns: 78px minmax(0, 1fr);
+        gap: 11px;
+        margin-top: 22px;
     }
 
-    /* HOME IMAGE SMALL SCREEN FIX */
-
-    .home-editorial-image {
-        height: 400px;
-        min-height: 400px;
+    .home-small-image {
+        width: 78px;
+        height: 95px;
     }
 
-    .home-editorial-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center center;
+    .home-role {
+        font-size: 7px;
+    }
+
+    .home-description p {
+        font-size: 9px;
+        line-height: 1.6;
+    }
+
+    .home-button {
+        padding: 8px 11px;
+        font-size: 8px;
+    }
+
+    .home-right {
+        min-height: 300px;
+        height: 90vw;
+        max-height: 420px;
     }
 
     .home-image-caption {
-        left: 6%;
-        right: 6%;
-        bottom: 20px;
-        flex-direction: column;
-        gap: 6px;
+        left: 11px;
+        right: 11px;
+        bottom: 11px;
+        font-size: 6px;
     }
 
-    .home-image-scroll {
-        right: 6%;
-        bottom: 62px;
-    }
-
-    .home-editorial-footer {
-        flex-wrap: wrap;
-        padding: 18px 6%;
-        font-size: 7px;
-    }
+    /* OTHER PAGES */
 
     .about-banner {
         height: 370px;
@@ -1389,6 +1541,7 @@ button {
         bottom: 15px;
     }
 }
+
 
 /* ==========================================
    ACCESSIBILITY

@@ -1,3 +1,4 @@
+
 /* =========================================
    EDUARD E. RAMOS — PORTFOLIO INTERACTIONS
 ========================================= */
@@ -9,8 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const navLinks = document.querySelectorAll(".nav-link");
     const sections = document.querySelectorAll("main section[id]");
     const backToTop = document.getElementById("backToTop");
+
     const contactForm = document.getElementById("contactForm");
     const formMessage = document.getElementById("formMessage");
+    const sendButton = document.getElementById("sendButton");
+
     const yearElement = document.getElementById("year");
 
 
@@ -33,7 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
             icon.classList.remove("fa-xmark");
             icon.classList.add("fa-bars");
         }
+
     }
+
 
     if (menuBtn && navbar) {
 
@@ -57,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+
         /* CLOSE MENU AFTER CLICKING A LINK */
 
         navLinks.forEach((link) => {
@@ -64,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             link.addEventListener("click", closeMenu);
 
         });
+
 
         /* CLOSE MENU USING ESCAPE */
 
@@ -74,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
         });
+
 
         /* CLOSE MENU WHEN RESIZED TO DESKTOP */
 
@@ -110,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+
         /* UPDATE ACTIVE NAVIGATION */
 
         navLinks.forEach((link) => {
@@ -120,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
             link.classList.toggle("active", isActive);
 
         });
+
 
         /* SHOW BACK TO TOP */
 
@@ -136,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+
     window.addEventListener("scroll", () => {
 
         if (!ticking) {
@@ -148,20 +160,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }, { passive: true });
 
+
     updateOnScroll();
 
 
     /* =========================================
-       CONTACT FORM
-       Opens the visitor's email application.
-       Does not send directly through a server.
+       CONTACT FORM — FORMSPREE
+       Sends messages directly from the website.
     ========================================= */
 
     if (contactForm && formMessage) {
 
-        contactForm.addEventListener("submit", (event) => {
+        contactForm.addEventListener("submit", async (event) => {
 
             event.preventDefault();
+
+
+            /* GET FORM VALUES */
 
             const name =
                 document.getElementById("name")?.value.trim() || "";
@@ -173,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("message")?.value.trim() || "";
 
 
-            /* CHECK REQUIRED FIELDS */
+            /* VALIDATE REQUIRED FIELDS */
 
             if (!name || !email || !message) {
 
@@ -199,26 +214,129 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            /* EMAIL DETAILS */
+            /* GET FORMSPREE ENDPOINT FROM FORM ACTION */
 
-            const recipient = "eduardramos580@email.com";
+            const formEndpoint = contactForm.action;
 
-            const subject = encodeURIComponent(
-                `Portfolio message from ${name}`
+            if (
+                !formEndpoint ||
+                formEndpoint.includes("YOUR_FORM_ID")
+            ) {
+
+                formMessage.textContent =
+                    "The contact form has not been configured yet. Please try again later.";
+
+                console.error(
+                    "Please replace YOUR_FORM_ID with your actual Formspree form ID."
+                );
+
+                return;
+
+            }
+
+
+            /* PREPARE FORM DATA */
+
+            const formData = new FormData(contactForm);
+
+            formData.set("name", name);
+            formData.set("email", email);
+            formData.set("message", message);
+
+            formData.set(
+                "_subject",
+                `New portfolio message from ${name}`
             );
 
-            const body = encodeURIComponent(
-                `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-            );
+
+            /* DISABLE BUTTON WHILE SENDING */
+
+            const originalButtonText = sendButton
+                ? sendButton.innerHTML
+                : "Send Message";
+
+            if (sendButton) {
+
+                sendButton.disabled = true;
+
+                sendButton.innerHTML =
+                    'Sending... <i class="fa-solid fa-spinner fa-spin"></i>';
+
+            }
+
+            formMessage.textContent = "Sending your message...";
 
 
-            /* OPEN EMAIL APPLICATION */
+            try {
 
-            formMessage.textContent =
-                "Opening your email application...";
+                /* SEND MESSAGE TO FORMSPREE */
 
-            window.location.href =
-                `mailto:${recipient}?subject=${subject}&body=${body}`;
+                const response = await fetch(formEndpoint, {
+
+                    method: "POST",
+
+                    body: formData,
+
+                    headers: {
+                        "Accept": "application/json"
+                    }
+
+                });
+
+
+                /* SUCCESS */
+
+                if (response.ok) {
+
+                    formMessage.textContent =
+                        "Your message was sent successfully! Thank you for contacting me.";
+
+                    formMessage.style.color = "#ffffff";
+
+                    contactForm.reset();
+
+                } else {
+
+                    /* SERVER ERROR */
+
+                    const result = await response.json().catch(() => ({}));
+
+                    const errorText = result.errors
+                        ?.map((error) => error.message)
+                        .join(", ");
+
+                    formMessage.textContent =
+                        errorText ||
+                        "Sorry, your message could not be sent. Please try again.";
+
+                    formMessage.style.color = "#ffffff";
+
+                }
+
+            } catch (error) {
+
+                /* CONNECTION ERROR */
+
+                console.error("Contact form error:", error);
+
+                formMessage.textContent =
+                    "Connection error. Please check your internet and try again.";
+
+                formMessage.style.color = "#ffffff";
+
+            } finally {
+
+                /* RESTORE BUTTON */
+
+                if (sendButton) {
+
+                    sendButton.disabled = false;
+
+                    sendButton.innerHTML = originalButtonText;
+
+                }
+
+            }
 
         });
 
