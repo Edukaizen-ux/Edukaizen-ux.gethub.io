@@ -1,57 +1,31 @@
-
 /* =========================================
-   EDUARD E. RAMOS — PORTFOLIO JAVASCRIPT
+   EDUARD E. RAMOS — PORTFOLIO INTERACTIONS
 ========================================= */
 
+document.addEventListener("DOMContentLoaded", () => {
 
-/* =========================================
-   MOBILE NAVIGATION
-========================================= */
-
-const menuBtn = document.getElementById("menuBtn");
-const navbar = document.getElementById("navbar");
-
-if (menuBtn && navbar) {
-
-    menuBtn.addEventListener("click", () => {
-
-        const isOpen = navbar.classList.toggle("show");
-
-        menuBtn.setAttribute("aria-expanded", String(isOpen));
-
-        const icon = menuBtn.querySelector("i");
-
-        if (icon) {
-            icon.classList.toggle("fa-bars", !isOpen);
-            icon.classList.toggle("fa-xmark", isOpen);
-        }
-
-        menuBtn.setAttribute(
-            "aria-label",
-            isOpen ? "Close navigation menu" : "Open navigation menu"
-        );
-
-    });
-
-}
+    const menuBtn = document.getElementById("menuBtn");
+    const navbar = document.getElementById("navbar");
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll("main section[id]");
+    const backToTop = document.getElementById("backToTop");
+    const contactForm = document.getElementById("contactForm");
+    const formMessage = document.getElementById("formMessage");
+    const yearElement = document.getElementById("year");
 
 
-/* =========================================
-   CLOSE MOBILE MENU
-========================================= */
+    /* =========================================
+       MOBILE NAVIGATION
+    ========================================= */
 
-const navLinks = document.querySelectorAll(".nav-link");
-
-navLinks.forEach((link) => {
-
-    link.addEventListener("click", () => {
+    function closeMenu() {
 
         if (!navbar || !menuBtn) return;
 
         navbar.classList.remove("show");
 
         menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.setAttribute("aria-label", "Open navigation menu");
+        menuBtn.setAttribute("aria-label", "Open navigation");
 
         const icon = menuBtn.querySelector("i");
 
@@ -59,169 +33,206 @@ navLinks.forEach((link) => {
             icon.classList.remove("fa-xmark");
             icon.classList.add("fa-bars");
         }
-
-    });
-
-});
-
-
-/* =========================================
-   ACTIVE NAVIGATION
-========================================= */
-
-const sections = document.querySelectorAll("main section[id]");
-
-function updateActiveNavigation() {
-
-    let current = "";
-
-    sections.forEach((section) => {
-
-        const sectionTop = section.offsetTop - 160;
-        const sectionBottom = sectionTop + section.offsetHeight;
-
-        if (
-            window.scrollY >= sectionTop &&
-            window.scrollY < sectionBottom
-        ) {
-            current = section.id;
-        }
-
-    });
-
-    if (!current && window.scrollY < 160) {
-        current = "home";
     }
 
-    navLinks.forEach((link) => {
+    if (menuBtn && navbar) {
 
-        const isActive =
-            link.getAttribute("href") === `#${current}`;
+        menuBtn.addEventListener("click", () => {
 
-        link.classList.toggle("active", isActive);
+            const isOpen = navbar.classList.toggle("show");
 
-    });
+            menuBtn.setAttribute("aria-expanded", String(isOpen));
 
-}
+            menuBtn.setAttribute(
+                "aria-label",
+                isOpen ? "Close navigation" : "Open navigation"
+            );
 
-window.addEventListener("scroll", updateActiveNavigation, {
-    passive: true
-});
+            const icon = menuBtn.querySelector("i");
 
-window.addEventListener("load", updateActiveNavigation);
+            if (icon) {
+                icon.classList.toggle("fa-bars", !isOpen);
+                icon.classList.toggle("fa-xmark", isOpen);
+            }
 
+        });
 
-/* =========================================
-   CLOSE MENU WHEN CLICKING OUTSIDE
-========================================= */
+        /* CLOSE MENU AFTER CLICKING A LINK */
 
-document.addEventListener("click", (event) => {
+        navLinks.forEach((link) => {
 
-    if (!navbar || !menuBtn) return;
+            link.addEventListener("click", closeMenu);
 
-    const clickedInsideMenu = navbar.contains(event.target);
-    const clickedMenuButton = menuBtn.contains(event.target);
+        });
 
-    if (
-        !clickedInsideMenu &&
-        !clickedMenuButton &&
-        navbar.classList.contains("show")
-    ) {
+        /* CLOSE MENU USING ESCAPE */
 
-        navbar.classList.remove("show");
+        document.addEventListener("keydown", (event) => {
 
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.setAttribute("aria-label", "Open navigation menu");
+            if (event.key === "Escape") {
+                closeMenu();
+            }
 
-        const icon = menuBtn.querySelector("i");
+        });
 
-        if (icon) {
-            icon.classList.remove("fa-xmark");
-            icon.classList.add("fa-bars");
-        }
+        /* CLOSE MENU WHEN RESIZED TO DESKTOP */
+
+        window.addEventListener("resize", () => {
+
+            if (window.innerWidth > 700) {
+                closeMenu();
+            }
+
+        });
 
     }
 
-});
 
+    /* =========================================
+       ACTIVE NAVIGATION + BACK TO TOP
+    ========================================= */
 
-/* =========================================
-   CONTACT FORM
-========================================= */
+    let ticking = false;
 
-const contactForm = document.getElementById("contactForm");
-const formMessage = document.getElementById("formMessage");
+    function updateOnScroll() {
 
-if (contactForm && formMessage) {
+        const scrollPosition = window.scrollY + 150;
 
-    contactForm.addEventListener("submit", (event) => {
+        let currentSection = "home";
 
-        event.preventDefault();
+        sections.forEach((section) => {
 
-        const name =
-            document.getElementById("name")?.value.trim() || "";
+            if (scrollPosition >= section.offsetTop) {
 
-        const email =
-            document.getElementById("email")?.value.trim() || "";
+                currentSection = section.id;
 
-        const message =
-            document.getElementById("message")?.value.trim() || "";
+            }
 
-        if (!name || !email || !message) {
+        });
 
-            formMessage.textContent = "Please fill in all fields.";
+        /* UPDATE ACTIVE NAVIGATION */
 
-            return;
+        navLinks.forEach((link) => {
+
+            const isActive =
+                link.getAttribute("href") === `#${currentSection}`;
+
+            link.classList.toggle("active", isActive);
+
+        });
+
+        /* SHOW BACK TO TOP */
+
+        if (backToTop) {
+
+            backToTop.classList.toggle(
+                "show",
+                window.scrollY > 450
+            );
 
         }
 
-        const recipient = "eduardramos580@email.com";
+        ticking = false;
 
-        const subject = encodeURIComponent(
-            `Portfolio message from ${name}`
-        );
+    }
 
-        const body = encodeURIComponent(
-            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-        );
+    window.addEventListener("scroll", () => {
 
-        formMessage.textContent =
-            "Opening your email application...";
+        if (!ticking) {
 
-        window.location.href =
-            `mailto:${recipient}?subject=${subject}&body=${body}`;
+            window.requestAnimationFrame(updateOnScroll);
 
-    });
+            ticking = true;
 
-}
+        }
+
+    }, { passive: true });
+
+    updateOnScroll();
 
 
-/* =========================================
-   CURRENT YEAR
-========================================= */
+    /* =========================================
+       CONTACT FORM
+       Opens the visitor's email application.
+       Does not send directly through a server.
+    ========================================= */
 
-const yearElement = document.getElementById("year");
+    if (contactForm && formMessage) {
 
-if (yearElement) {
+        contactForm.addEventListener("submit", (event) => {
 
-    yearElement.textContent = new Date().getFullYear();
+            event.preventDefault();
 
-}
+            const name =
+                document.getElementById("name")?.value.trim() || "";
+
+            const email =
+                document.getElementById("email")?.value.trim() || "";
+
+            const message =
+                document.getElementById("message")?.value.trim() || "";
 
 
-/* =========================================
-   IMAGE FALLBACK
-   Shows a placeholder if an image is missing.
-========================================= */
+            /* CHECK REQUIRED FIELDS */
 
-document.querySelectorAll("img").forEach((img) => {
+            if (!name || !email || !message) {
 
-    img.addEventListener("error", () => {
+                formMessage.textContent =
+                    "Please complete all fields.";
 
-        img.classList.add("image-error");
+                return;
 
-        img.alt = "Image unavailable";
+            }
 
-    });
+
+            /* VALIDATE EMAIL */
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+
+                formMessage.textContent =
+                    "Please enter a valid email address.";
+
+                return;
+
+            }
+
+
+            /* EMAIL DETAILS */
+
+            const recipient = "eduardramos580@email.com";
+
+            const subject = encodeURIComponent(
+                `Portfolio message from ${name}`
+            );
+
+            const body = encodeURIComponent(
+                `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+            );
+
+
+            /* OPEN EMAIL APPLICATION */
+
+            formMessage.textContent =
+                "Opening your email application...";
+
+            window.location.href =
+                `mailto:${recipient}?subject=${subject}&body=${body}`;
+
+        });
+
+    }
+
+
+    /* =========================================
+       CURRENT YEAR
+    ========================================= */
+
+    if (yearElement) {
+
+        yearElement.textContent = new Date().getFullYear();
+
+    }
 
 });
